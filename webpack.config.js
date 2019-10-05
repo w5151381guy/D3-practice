@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     barChart: './bar chart/index.js',
     multiBarChart: './multi bar chart/index.js',
+    lineChart: './line chart/index.js',
   },
   output: {
     filename: '[name].js',

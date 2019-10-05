@@ -3,7 +3,7 @@ import tip from '../utils/tooltip'
 import { multiBarDatas } from '../utils/data'
 import { getSmartEndpoint, chartColor } from '../utils/config'
 
-function multi_bar_chart(root, datas) {
+function multi_bar_chart(root) {
   document.querySelector(`#${root}`).innerHTML = ''
 
   const margin = { top: 10, right: 35, bottom: 20, left: 45 },

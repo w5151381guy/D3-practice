@@ -1,3 +1,4 @@
+import * as d3 from 'd3'
 import d3Tip from 'd3-tip'
 
 function setTooltip(chart_type) {
@@ -8,25 +9,14 @@ function setTooltip(chart_type) {
   switch (chart_type) {
     case 'line': {
       tooltip.html((d, i) => {
-        let group_name = 'Google'
-
-        if (media.length > 1) {
-          const google_data = data[0]
-          group_name = google_data.series[i] === d ? 'Google' : 'Facebook'
-        } else {
-          group_name = media[0]
-        }
-
         const timeFormat = d3.timeFormat('%m/%d')
 
-        let tooltipHTML = ''
-
-        tooltipHTML = `
+        let tooltipHTML = `
           <div class="date">${timeFormat(d.name)}</div>
           <div>
-            <span class="mark ${group_name}-mark"></span>
-            <span>${group_name}</span>
-            ${unit}${d.value.toLocaleString()}
+            <span class="mark ${d.label}-mark"></span>
+            <span>${d.label}</span>
+            ${d.value.toLocaleString()}
           </div>
         `
         return tooltipHTML

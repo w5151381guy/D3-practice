@@ -1,39 +1,40 @@
-function multi_line_chart(root, data) {
+import * as d3 from 'd3'
+import tip from '../utils/tooltip'
+import { lineDatas } from '../utils/data'
+import { getSmartEndpoint, chartColor } from '../utils/config'
+
+function multi_line_chart(root) {
   document.querySelector(`#${root}`).innerHTML = ''
 
   const margin = { top: 10, right: 35, bottom: 20, left: 45 },
     width = document.querySelector(`#${root}`).clientWidth,
-    height = width > 768 ? 284 : 248
+    height = 350
 
   // Format Data
-  const parseDate = root.match('hour')
-    ? d3.timeParse('%H')
-    : d3.timeParse('%m-%d')
-  const newData = data.map(d => ({
-    series: d.series.map(d => ({
-      name: parseDate(d.name),
-      value: parseFloat(d.value),
+  const parseDate = d3.timeParse('%m-%d')
+  const newData = lineDatas.map(data => ({
+    series: data.series.map(el => ({
+      label: data.name,
+      name: parseDate(el.name),
+      value: parseFloat(el.value),
     })),
-    name: d.name,
+    name: data.name,
   }))
 
-  const media = newData.map(el => el.name)
-
   const x = d3.scaleTime().range([0, width - margin.left - margin.right])
-  // .paddingInner(0.1)
 
   const y = d3.scaleLinear().range([height, 0])
 
   let maxValue = 0
 
-  data
+  lineDatas
     .map(el => el.series.map(el => parseFloat(el.value)))
     .forEach(el => {
       const max = d3.max(el)
       maxValue = maxValue > max ? maxValue : max
     })
 
-  const { endPoint, count } = getSmartTicks(maxValue)
+  const endPoint = getSmartEndpoint(maxValue)
 
   x.domain(d3.extent(newData[0].series, d => d.name))
   y.domain([0, endPoint])
@@ -66,7 +67,7 @@ function multi_line_chart(root, data) {
     .style('stroke', d => chartColor[d.name].color)
     .style('fill', 'none')
 
-  const tooltip = setTooltip('line', newData, root, media)
+  const tooltip = tip.setTooltip('line')
   svg.call(tooltip)
 
   // add tooltip
@@ -88,38 +89,22 @@ function multi_line_chart(root, data) {
     .style('fill', 'transparent')
 
   // add the x Axis
-  const xAxis = root.match('hour')
-    ? d3
-        .axisBottom(x)
-        .tickValues([parseDate(0), parseDate(12), parseDate(23)])
-        .tickFormat(d3.timeFormat('%H:%M'))
-    : root.match('month')
-    ? d3
-        .axisBottom(x)
-        .ticks(5)
-        .tickFormat(d3.timeFormat('%m/%d'))
-        .tickValues([x.domain()[0], x.domain()[1]])
-    : d3
-        .axisBottom(x)
-        .ticks(5)
-        .tickFormat(d3.timeFormat('%m/%d'))
+  const xAxis = d3
+    .axisBottom(x)
+    .ticks(5)
+    .tickFormat(d3.timeFormat('%m/%d'))
 
-  // mobile x ticks show head and end
-  width > 414 || root.match('hour')
-    ? svg
-        .append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .attr('class', 'xaxis')
-        .call(xAxis.tickSizeOuter(0))
-    : svg
-        .append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .attr('class', 'xaxis')
-        .call(xAxis.tickSizeOuter(0).tickValues([x.domain()[0], x.domain()[1]]))
+  svg
+    .append('g')
+    .attr('transform', `translate(0, ${height})`)
+    .attr('class', 'xaxis')
+    .call(xAxis)
 
   // add the y Axis
   svg
     .append('g')
     .attr('class', 'yaxis')
-    .call(d3.axisLeft(y).ticks(count))
+    .call(d3.axisLeft(y).ticks(5))
 }
+
+export default { multi_line_chart }
