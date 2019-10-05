@@ -1,13 +1,17 @@
+import * as d3 from 'd3'
+import tip from '../utils/tooltip'
+import { multiBarDatas } from '../utils/data'
+import { getSmartEndpoint, chartColor } from '../utils/config'
+
 function multi_bar_chart(root, datas) {
   document.querySelector(`#${root}`).innerHTML = ''
 
   const margin = { top: 10, right: 35, bottom: 20, left: 45 },
     width = document.querySelector(`#${root}`).clientWidth,
-    height = width > 768 ? 284 : 248,
-    rectWidth = datas[0].series.length > 5 ? 8 : 24
+    height = 350,
+    rectWidth = 24
 
   const x0 = d3.scaleBand().range([0, width - margin.left - margin.right])
-  // .padding(0.05)
 
   const x1 = d3
     .scaleBand()
@@ -17,28 +21,20 @@ function multi_bar_chart(root, datas) {
   const y = d3.scaleLinear().range([height, 0])
 
   let maxValue = 0
-  let labels = [],
-    tooltip_label = []
+  let labels = []
 
-  datas[0].series.forEach(data => {
-    if (data.name === '?') {
-      labels.push(label['unknown'].cht_name)
-      tooltip_label.push(label['unknown'].tooltip_cht_name)
-    } else if (data.name in label) {
-      labels.push(label[data.name].cht_name)
-      tooltip_label.push(label[data.name].tooltip_cht_name)
-    } else {
+  multiBarDatas.forEach(datas => {
+    datas.series.forEach(data => {
       labels.push(data.name)
-      tooltip_label.push(data.name)
-    }
+    })
   })
 
-  const newData = labels.map((label, i) => ({
+  const newData = labels.map(label => ({
     name: label,
-    series: datas.map(el => ({
-      name: el.name,
-      label: tooltip_label[i],
-      value: el.series[i].value,
+    series: multiBarDatas.map((datas, i) => ({
+      name: datas.name,
+      label: label,
+      value: datas.series[i].value,
     })),
   }))
 
@@ -49,11 +45,7 @@ function multi_bar_chart(root, datas) {
       maxValue = maxValue > max ? maxValue : max
     })
 
-  const { endPoint, count } = getSmartTicks(maxValue)
-
-  if (root.match('pdf') && endPoint >= 1000) {
-    margin.left = 55
-  }
+  const endPoint = getSmartEndpoint(maxValue)
 
   x0.domain(newData.map(el => el.name))
   x1.domain(newData[0].series.map(el => el.name))
@@ -67,11 +59,8 @@ function multi_bar_chart(root, datas) {
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-  const tooltip = setTooltip('multi_bar', null, root)
-
-  if (!root.match('pdf')) {
-    svg.call(tooltip)
-  }
+  const tooltip = tip.setTooltip('multi_bar')
+  svg.call(tooltip)
 
   svg
     .selectAll('.slice')
@@ -89,14 +78,9 @@ function multi_bar_chart(root, datas) {
     .attr('y', d => y(d.value))
     .attr('height', d => height - y(d.value))
     .attr('fill', d => chartColor[d.name].color)
-    .attr(
-      'transform',
-      datas.length > 1
-        ? `translate(${x0.bandwidth() / 2 - rectWidth - 2}, 0)`
-        : `translate(${x0.bandwidth() / 2 - rectWidth / 2 - 2}, 0)`
-    )
-    .on('mouseover touchstart', tooltip.show)
-    .on('touchend, mouseout', tooltip.hide)
+    .attr('transform', `translate(${x0.bandwidth() / 2 - rectWidth - 2}, 0)`)
+    .on('mouseover', tooltip.show)
+    .on('mouseout', tooltip.hide)
 
   // add the x Axis
   svg
@@ -109,5 +93,7 @@ function multi_bar_chart(root, datas) {
   svg
     .append('g')
     .attr('class', 'yaxis')
-    .call(d3.axisLeft(y).ticks(count))
+    .call(d3.axisLeft(y).ticks(5))
 }
+
+export default { multi_bar_chart }

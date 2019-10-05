@@ -54,12 +54,42 @@
   transform: translate(-50%, 100%);
 }
 
-/* chart style */
+/* chart container style */
 #root {
   width: 50%;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
+.chart-title {
+  margin-left: 30px;
+}
+
+.mark {
+  display: -webkit-inline-box;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-right: 30px;
+  margin-top: 32px;
+  font-size: 20px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 99%;
+  margin-right: 10px;
+}
+
+.google-mark {
+  background-color: #f85672;
+}
+
+.facebook-mark {
+  background-color: #0daeff;
+}
+
+/* chart style */
 .xaxis,
 .yaxis {
   color: #334056;
