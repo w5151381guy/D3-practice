@@ -1,0 +1,34 @@
+{
+  "name": "D3-practice",
+  "version": "1.0.0",
+  "description": "### 系列文網址：https://ithelp.ithome.com.tw/users/20111948/ironman/2837",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w5151381guy/D3-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/w5151381guy/D3-practice/issues"
+  },
+  "homepage": "https://github.com/w5151381guy/D3-practice#readme",
+  "dependencies": {
+    "d3": "^4.13.0",
+    "d3-tip": "^0.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server -w --config webpack.dev.js --mode development",
+    "build": "webpack --mode production"
+  }
+}

@@ -1,0 +1,84 @@
+/* tooltip style */
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: #2b3c56;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.d3-tip .date {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.d3-tip .mark {
+  display: inline-flex;
+  width: 4px;
+  height: 4px;
+  border-radius: 99%;
+  margin: 0;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+.d3-tip .Facebook-mark {
+  background-color: #0daeff;
+}
+
+.d3-tip .Google-mark {
+  background-color: #f85672;
+}
+
+.d3-tip:after {
+  /* Creates a small triangle extender for the tooltip */
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 10px;
+  width: 16px;
+  height: 12px;
+  color: #2b3c56;
+  content: '\25BC';
+  position: absolute;
+  text-align: center;
+}
+
+.d3-tip.n:after {
+  /* Style northward tooltips differently */
+  left: 50%;
+  bottom: 4px;
+  -webkit-transform: translate(-50%, 100%);
+  transform: translate(-50%, 100%);
+}
+
+/* chart style */
+#root {
+  width: 50%;
+  margin-top: 100px;
+}
+
+.xaxis,
+.yaxis {
+  color: #334056;
+  opacity: 0.5;
+}
+
+.xaxis line,
+.xaxis path,
+.yaxis line,
+.yaxis path {
+  stroke: #334056;
+}
+
+.xaxis text,
+.yaxis text {
+  fill: #334056;
+}
+
+.line {
+  stroke-width: 2;
+  fill: none;
+}

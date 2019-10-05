@@ -1,28 +1,27 @@
-function bar_chart(root, data) {
+import * as d3 from 'd3'
+import tip from '../utils/tooltip'
+import { barDatas } from '../utils/data'
+import { getSmartEndpoint, chartColor } from '../utils/config'
+
+function bar_chart(root) {
   document.querySelector(`#${root}`).innerHTML = ''
 
   const margin = { top: 10, right: 35, bottom: 20, left: 40 },
     width = document.querySelector(`#${root}`).clientWidth,
-    height = width > 768 ? 284 : 248
+    height = 350
 
-  const x = d3
-    .scaleBand()
-    .range([0, width])
-    .padding(0.1)
+  // 設定 x 以及 y 座標的比例尺以及輸出區域
+  const x = d3.scaleBand().range([0, width])
 
   const y = d3.scaleLinear().range([height, 0])
 
-  const maxFB = data.length > 1 ? parseFloat(data[1].series[0].value) : 0,
-    maxGoogle = parseFloat(data[0].series[0].value),
+  const maxFB = parseFloat(barDatas[1].value),
+    maxGoogle = parseFloat(barDatas[0].value),
     maxValue = maxFB > maxGoogle ? maxFB : maxGoogle
 
-  const { endPoint, count } = getSmartTicks(maxValue)
+  const endPoint = getSmartEndpoint(maxValue)
 
-  if (root.match('pdf') && endPoint >= 1000) {
-    margin.left = 55
-  }
-
-  x.domain(data.map(d => d.name))
+  x.domain(barDatas.map(d => d.name))
   y.domain([0, endPoint])
 
   const svg = d3
@@ -33,25 +32,22 @@ function bar_chart(root, data) {
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-  const tooltip = setTooltip('bar', null, root)
-
-  if (!root.match('pdf')) {
-    svg.call(tooltip)
-  }
+  const tooltip = tip.setTooltip('bar')
+  svg.call(tooltip)
 
   svg
     .selectAll('rect')
-    .data(data)
+    .data(barDatas)
     .enter()
     .append('rect')
     .attr('x', d => x(d.name))
     .attr('width', 24)
-    .attr('y', d => y(d.series[0].value))
-    .attr('height', d => height - y(d.series[0].value))
+    .attr('y', d => y(d.value))
+    .attr('height', d => height - y(d.value))
     .attr('fill', d => chartColor[d.name].color)
     .attr('transform', `translate(${x.bandwidth() / 2 - 12}, 0)`)
-    .on('mouseover touchstart', tooltip.show)
-    .on('touchend, mouseout', tooltip.hide)
+    .on('mouseover', tooltip.show)
+    .on('mouseout', tooltip.hide)
 
   // add the x Axis
   svg
@@ -64,5 +60,7 @@ function bar_chart(root, data) {
   svg
     .append('g')
     .attr('class', 'yaxis')
-    .call(d3.axisLeft(y).ticks(count))
+    .call(d3.axisLeft(y).ticks(5))
 }
+
+export default { bar_chart }
