@@ -52,10 +52,10 @@ function setTooltip(chart_type) {
       return tooltip
     }
 
-    case 'donut': {
+    case 'pie': {
       tooltip.html(
         d => `
-          <div class="date">${device[media][d.data.name].cht_name}</div>
+          <div class="date">${d.data.name}</div>
           <div>
             點擊數 <span>${d.data.clicks}</span>
           </div>

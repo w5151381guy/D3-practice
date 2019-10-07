@@ -60,6 +60,11 @@
   margin-top: 50px;
 }
 
+#pie {
+  width: 30%;
+  margin-top: 50px;
+}
+
 .chart-title {
   margin-left: 30px;
 }
@@ -87,6 +92,22 @@
 
 .facebook-mark {
   background-color: #0daeff;
+}
+
+.desktop-mark {
+  background-color: #ffb854;
+}
+
+.mobile-mark {
+  background-color: #0daeff;
+}
+
+.tablet-mark {
+  background-color: #f85672;
+}
+
+.tv-mark {
+  background-color: #08c9cc;
 }
 
 /* chart style */

@@ -107,4 +107,26 @@ export const lineDatas = [
   },
 ]
 
-export const pieDatas = {}
+export const pieDatas = [
+  {
+    name: 'Google',
+    series: [
+      {
+        name: 'desktop',
+        value: 307,
+      },
+      {
+        name: 'mobile',
+        value: 89,
+      },
+      {
+        name: 'tablet',
+        value: 146,
+      },
+      {
+        name: 'tv',
+        value: 252,
+      },
+    ],
+  },
+]

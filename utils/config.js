@@ -5,6 +5,18 @@ export const chartColor = {
   Facebook: {
     color: '#0daeff',
   },
+  mobile: {
+    color: '#0daeff',
+  },
+  desktop: {
+    color: '#ffb854',
+  },
+  tablet: {
+    color: '#f85672',
+  },
+  tv: {
+    color: '#08c9cc',
+  },
 }
 
 // val 為 d3.max() 得到的資料最大值
