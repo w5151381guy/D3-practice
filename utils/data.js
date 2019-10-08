@@ -130,3 +130,50 @@ export const pieDatas = [
     ],
   },
 ]
+
+export const bubbleDatas = [
+  {
+    title: '日本流行樂',
+    likes: 40,
+  },
+  {
+    title: '古典音樂',
+    likes: 10,
+  },
+  {
+    title: '韓國流行樂',
+    likes: 100,
+  },
+  {
+    title: '華語流行樂',
+    likes: 70,
+  },
+  {
+    title: '搖滾',
+    likes: 43,
+  },
+  {
+    title: '藍調',
+    likes: 20,
+  },
+  {
+    title: '舞曲',
+    likes: 17,
+  },
+  {
+    title: '電子音樂',
+    likes: 60,
+  },
+  {
+    title: '嘻哈/饒舌',
+    likes: 35,
+  },
+  {
+    title: '國際流行音樂',
+    likes: 70,
+  },
+  {
+    title: '爵士樂',
+    likes: 12,
+  },
+]

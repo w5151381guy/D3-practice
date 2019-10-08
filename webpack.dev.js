@@ -8,6 +8,7 @@ module.exports = merge(common, {
   devServer: {
     port: 8080,
     contentBase: [
+      path.join(__dirname, 'bubble chart'),
       path.join(__dirname, 'donut chart'),
       path.join(__dirname, 'pie chart'),
       path.join(__dirname, 'line chart'),
