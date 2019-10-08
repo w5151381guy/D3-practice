@@ -7,16 +7,17 @@ function bubble_chart(root) {
   }
 
   // svg width and height
-  const size = 550
+  const width = document.querySelector(`#${root}`).clientWidth,
+    height = width
+
   let pack = d3
     .pack()
     .padding(1.5)
-    .size([size, size])
+    .size([width, height])
   let rootnode = d3.hierarchy(dataobj)
 
   let nodes = pack(
-    // use repo distance as sum value
-    // sort repos, you can custom the compare function
+    // use song likes as sum value and sort likes
     rootnode.sum(d => d.likes).sort((a, b) => b.data.likes - a.data.likes)
   )
 
@@ -28,8 +29,8 @@ function bubble_chart(root) {
     .attr('class', 'bubble')
     .style('display', 'block')
     .append('svg')
-    .attr('width', size)
-    .attr('height', size)
+    .attr('width', width)
+    .attr('height', height)
 
   // all circles
   const circles = svg
