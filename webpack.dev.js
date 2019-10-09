@@ -1,20 +1,21 @@
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const common = require('./webpack.config.js')
-const path = require('path')
 
 module.exports = merge(common, {
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    }),
+    new BundleAnalyzerPlugin({ openAnalyzer: false }),
+  ],
   devtool: 'source-map',
   devServer: {
-    port: 8080,
-    contentBase: [
-      path.join(__dirname, 'bubble chart'),
-      path.join(__dirname, 'donut chart'),
-      path.join(__dirname, 'pie chart'),
-      path.join(__dirname, 'line chart'),
-      path.join(__dirname, 'multi bar chart'),
-      path.join(__dirname, 'bar chart'),
-    ],
+    port: 3000,
+    contentBase: path.join(__dirname, './react_d3_practice/src'),
+    // inline: true,
     publicPath: '/dist/',
     historyApiFallback: true,
   },
